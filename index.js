@@ -19,15 +19,9 @@ class Boundary {
 
 const boundaries = [
     new Boundary({
-        
+       position: {
+        x: 0,
+        y: 0
+       } 
     })
 ]
-
-const boundary2 = new Boundary({
-    position: {
-        x:41,
-        y:0    
-    }
-})
-
-boundary2.draw();
