@@ -19,19 +19,20 @@ class Boundary {
     }
 }
 
-const pacmanImg = new Image()
+const pacmanImg = new Image(40,40)
 pacmanImg.src = "img/conversallogo.png";
 
 class Player {
-    constructor({position, velocity}) {
+    constructor({position, velocity, image}) {
         this.position = position;
         this.velocity = velocity;
         this.radius = 10
+        this.image = image;
     }
 
     draw() {
         c.beginPath();
-        c.drawImage(pacmanImg, this.position.x, this.position.y);
+        c.drawImage(this.image, this.position.x, this.position.y);
         c.closePath();
     }
 }
@@ -52,7 +53,8 @@ const player = new Player({
     velocity: {
         x: 0, 
         y: 0
-    }
+    },
+    image: pacmanImg,
 })
 
 map.forEach((row, i) => {
