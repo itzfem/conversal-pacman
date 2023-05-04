@@ -5,8 +5,14 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 class Boundary {
-    constructor({position, velocity}) {
-        this.position = position
-        this.velocity = velocity
+    constructor({position}) {
+        this.position = position;
+        this.width = 40;
+        this.height = 40;
+    }
+
+    draw() {
+        c.fillStyle = 'blue';
+        c.fillRect(this.position.x, this.position.y, this.width, this.height);
     }
 }
