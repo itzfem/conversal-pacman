@@ -5,5 +5,8 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
 class Boundary {
-    
+    constructor({position, velocity}) {
+        this.position = position
+        this.velocity = velocity
+    }
 }
