@@ -16,3 +16,18 @@ class Boundary {
         c.fillRect(this.position.x, this.position.y, this.width, this.height);
     }
 }
+
+const boundaries = [
+    new Boundary({
+        
+    })
+]
+
+const boundary2 = new Boundary({
+    position: {
+        x:41,
+        y:0    
+    }
+})
+
+boundary2.draw();
