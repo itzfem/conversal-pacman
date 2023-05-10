@@ -17,9 +17,6 @@ class Boundary {
     }
 
     draw() {
-        //c.fillStyle = 'blue';
-        //c.fillRect(this.position.x, this.position.y, this.width, this.height);
-
         c.drawImage(this.image, this.position.x, this.position.y);
     }
 }
@@ -176,6 +173,9 @@ const ghosts = [
         image: createImage('img/linkedinlogo.png')
     }),
 ];
+
+//let pacmanGif = GIF();
+//pacmanGif.load("img/conversalpacman.gif");
 
 const powerUps = [];
 const pellets = [];
@@ -515,7 +515,25 @@ function animate() {
 
     //detect collision between ghosts and player 
     for (let i = ghosts.length - 1; 0 <= i; i--) {
-        
+        const ghost = ghosts[i];
+
+        if (
+            Math.hypot(
+                ghost.position.x - player.position.x,
+                ghost.position.y - player.position.y
+            ) <
+            ghost.radius + player.radius
+        ) {
+            if (ghost.scared) {
+                ghosts.splice(i, 1)
+            } 
+        }
+    }
+
+    //win condition
+    if (pellets.length === 0) {
+        console.log("you win!");
+        cancelAnimationFrame(animationId)
     }
 
     //powerups
