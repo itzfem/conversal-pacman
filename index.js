@@ -174,8 +174,6 @@ const ghosts = [
     }),
 ];
 
-//let pacmanGif = GIF();
-//pacmanGif.load("img/conversalpacman.gif");
 
 const powerUps = [];
 const pellets = [];
@@ -206,7 +204,6 @@ const keys = {
         pressed: false
     }
 }
-
 
 let lastKey = '';
 let score = 0;
