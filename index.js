@@ -35,11 +35,17 @@ class Player {
         this.radius = 15
         this.image = image;
         this.speed = 4;
+        this.hurt = false;
     }
 
     draw() {
         c.beginPath();
-        c.drawImage(this.image, this.position.x - this.radius, this.position.y - this.radius, this.radius * 2, this.radius * 2);
+        if (this.hurt) {
+            c.drawImage(createImage("img/pacmanHurt.png"), this.position.x - this.radius, this.position.y - this.radius, this.radius * 2, this.radius * 2);
+        } else {
+            c.drawImage(this.image, this.position.x - this.radius, this.position.y - this.radius, this.radius * 2, this.radius * 2);
+        }
+        
         //c.arc(this.position.x, this.position.y, this.radius, 0, Math.PI * 2)
         //c.fillStyle = 'yellow';
         //c.fill();
@@ -63,11 +69,16 @@ class Ghost {
         this.image = image;
         this.prevCollisions = [];
         this.speed = 2;
+        this.scared = false;
     }
 
     draw() {
         c.beginPath();
-        c.drawImage(this.image, this.position.x - this.radius, this.position.y - this.radius, this.radius * 2, this.radius * 2);
+        if (this.scared) {
+            c.drawImage(createImage("img/scaredGhost.png"), this.position.x - this.radius, this.position.y - this.radius, this.radius * 2, this.radius * 2);
+        } else {
+            c.drawImage(this.image, this.position.x - this.radius, this.position.y - this.radius, this.radius * 2, this.radius * 2);
+        }
         c.closePath();
     }
 
@@ -96,7 +107,7 @@ class Pellet {
 class PowerUp {
     constructor({position}) {
         this.position = position;
-        this.radius = 3
+        this.radius = 8
     }
 
     draw() {
@@ -110,7 +121,7 @@ class PowerUp {
 
 const map = [
     ['1', '-', '-', '-', '-', '-', '-', '-', '-', '-', '2'],
-    ['|', ' ', '.', '.', '.', '.', '.', '.', '.', '.', '|'],
+    ['|', ' ', '.', '.', '.', '.', '.', '.', '.', 'p', '|'],
     ['|', '.', 'b', '.', '[', '7', ']', '.', 'b', '.', '|'],
     ['|', '.', '.', '.', '.', '_', '.', '.', '.', '.', '|'],
     ['|', '.', '[', ']', '.', '.', '.', '[', ']', '.', '|'],
@@ -120,7 +131,7 @@ const map = [
     ['|', '.', '[', ']', '.', '.', '.', '[', ']', '.', '|'],
     ['|', '.', '.', '.', '.', '^', '.', '.', '.', '.', '|'],
     ['|', '.', 'b', '.', '[', '5', ']', '.', 'b', '.', '|'],
-    ['|', '.', '.', '.', '.', '.', '.', '.', '.', '.', '|'],
+    ['|', 'p', '.', '.', '.', '.', '.', '.', '.', 'p', '|'],
     ['4', '-', '-', '-', '-', '-', '-', '-', '-', '-', '3']
   ]
 
@@ -165,6 +176,8 @@ const ghosts = [
         image: createImage('img/linkedinlogo.png')
     }),
 ];
+
+const powerUps = [];
 const pellets = [];
 const boundaries = [];
 const player = new Player({
@@ -387,6 +400,16 @@ map.forEach((row, i) => {
                     })
                 )
             break;
+            case 'p':
+                powerUps.push(
+                    new PowerUp({
+                        position: {
+                            x: Boundary.width * j + Boundary.width / 2,
+                            y: Boundary.height * i + Boundary.height / 2
+                        }
+                    })
+                )
+            break;
         }
     })
 })
@@ -490,8 +513,32 @@ function animate() {
         }
     }
 
+    //powerups
+    for (let i = powerUps.length - 1; 0 <= i; i--) {
+        const powerUp = powerUps[i];
+        powerUp.draw();
+
+        if (
+            Math.hypot(
+                powerUp.position.x - player.position.x,
+                powerUp.position.y - player.position.y
+            ) < 
+            powerUp.radius + player.radius
+        ) {
+            powerUps.splice(i, 1)
+
+            ghosts.forEach(ghost => {
+                ghost.scared = true;
+
+                setTimeout(() => {
+                    ghost.scared = false;
+                }, 3000)
+            })
+        }
+    }
+
     //pellets are touched
-    for (let i = pellets.length - 1; i >= 0; i--) {
+    for (let i = pellets.length - 1; 0 <= i; i--) {
         const pellet = pellets[i];
         pellet.draw();
 
@@ -503,13 +550,23 @@ function animate() {
         }
     }
 
+    function togglePlayerHurt() {
+        player.hurt = !player.hurt;
+    }
+
     ghosts.forEach(ghost => {
         ghost.update();
 
+        //ghost touches player
         if (Math.hypot(ghost.position.x - player.position.x,
             ghost.position.y - player.position.y) <
-            ghost.radius + player.radius) {
+            ghost.radius + player.radius && !ghost.scared) {
                 if (!ghost.collided) {
+                    const hurtInterval = setInterval(togglePlayerHurt, 100);
+                    setTimeout(() => {
+                        clearInterval(hurtInterval);
+                        togglePlayerHurt();
+                    }, 1500);
                     lives--;
                     livesElement.innerHTML = lives;
                     ghost.collided = true;
