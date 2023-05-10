@@ -513,6 +513,11 @@ function animate() {
         }
     }
 
+    //detect collision between ghosts and player 
+    for (let i = ghosts.length - 1; 0 <= i; i--) {
+        
+    }
+
     //powerups
     for (let i = powerUps.length - 1; 0 <= i; i--) {
         const powerUp = powerUps[i];
