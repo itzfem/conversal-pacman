@@ -43,9 +43,6 @@ class Player {
             c.drawImage(this.image, this.position.x - this.radius, this.position.y - this.radius, this.radius * 2, this.radius * 2);
         }
         
-        //c.arc(this.position.x, this.position.y, this.radius, 0, Math.PI * 2)
-        //c.fillStyle = 'yellow';
-        //c.fill();
         c.closePath();
     }
 
@@ -693,9 +690,9 @@ function animate() {
     })
 }
 
-
 animate();
 
+//computer movement
 addEventListener('keydown', function(event) {
     event.preventDefault();
     switch(event.key) {
@@ -736,3 +733,45 @@ addEventListener('keyup', function(event) {
         }
 })
 
+//mobile movement (TODO)
+let touchStartX = 0;
+let touchStartY = 0;
+
+function handleTouchStart(event) {
+    touchStartX = event.touches[0].clientX;
+    touchStartY = event.touches[0].clientY;
+  }
+  
+  function handleTouchMove(event) {
+    event.preventDefault(); // Prevent scrolling on swipe
+  
+    const touchX = event.touches[0].clientX;
+    const touchY = event.touches[0].clientY;
+  
+    const swipeX = touchX - touchStartX;
+    const swipeY = touchY - touchStartY;
+  
+    if (Math.abs(swipeX) > Math.abs(swipeY)) {
+      // Horizontal swipe
+      if (swipeX > 0) {
+        // Swipe right
+        lastKey = 'ArrowRight';
+      } else {
+        // Swipe left
+        lastKey = 'ArrowLeft';
+      }
+    } else {
+      // Vertical swipe
+      if (swipeY > 0) {
+        // Swipe down
+        lastKey = 'ArrowDown';
+      } else {
+        // Swipe up
+        lastKey = 'ArrowUp';
+      }
+    }
+  }
+  
+
+canvas.addEventListener('touchstart', handleTouchStart);
+canvas.addEventListener('touchmove', handleTouchMove);
