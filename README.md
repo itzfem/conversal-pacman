@@ -3,3 +3,9 @@
 - Custom Pacman image
 - Custom ghosts
 - Pacman hurt animation
+
+## TODO
+- Pacman animation
+- Move pacman in direction of arrows
+- Game over screen
+- You win screen

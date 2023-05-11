@@ -440,9 +440,8 @@ function animate() {
             player.velocity.y = 0;
         }
     })
+    
     player.update();
-    //player.velocity.x = 0
-    //player.velocity.y = 0
 
     if (keys.ArrowUp.pressed && lastKey === 'ArrowUp') {
         for (let i = 0; i < boundaries.length; i++) {
