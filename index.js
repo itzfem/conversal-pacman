@@ -187,7 +187,7 @@ const player = new Player({
         x: 0, 
         y: 0
     },
-    image: createImage("img/conversallogo.png"),
+    image: createImage("img/pacman/conversallogo.png"),
 })
 
 const keys = {
@@ -454,9 +454,11 @@ function animate() {
             rectangle: boundary
         })) {
             player.velocity.y = 0;
+            player.image = createImage("img/pacman/conversallogo-up.png")
             break
         } else {
             player.velocity.y = -player.speed;
+            player.image = createImage("img/pacman/conversallogo-up.png")
         }
     }
     } else if (keys.ArrowLeft.pressed && lastKey === 'ArrowLeft') {
@@ -470,9 +472,11 @@ function animate() {
                 rectangle: boundary
             })) {
                 player.velocity.x = 0;
+                player.image = createImage("img/pacman/conversallogo-left.png")
                 break
             } else {
                 player.velocity.x = -player.speed;
+                player.image = createImage("img/pacman/conversallogo-left.png")
             }
         }
     } else if (keys.ArrowDown.pressed && lastKey === 'ArrowDown') {
@@ -486,9 +490,11 @@ function animate() {
                 rectangle: boundary
             })) {
                 player.velocity.y = 0;
+                player.image = createImage("img/pacman/conversallogo-down.png")
                 break
             } else {
                 player.velocity.y = player.speed;
+                player.image = createImage("img/pacman/conversallogo-down.png")
             }
         }
     } else if (keys.ArrowRight.pressed && lastKey === 'ArrowRight') {
@@ -502,9 +508,11 @@ function animate() {
                 rectangle: boundary
             })) {
                 player.velocity.x = 0;
+                player.image = createImage("img/pacman/conversallogo.png")
                 break
             } else {
                 player.velocity.x = player.speed;
+                player.image = createImage("img/pacman/conversallogo.png")
             }
         }
     }
@@ -591,6 +599,7 @@ function animate() {
                     ghost.collided = true;
                     if (lives === 0) {
                         cancelAnimationFrame(animationId);
+                        //c.reset();
                     }
                 }
         } else {
