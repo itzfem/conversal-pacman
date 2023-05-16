@@ -1,3 +1,4 @@
+//SOURCE=https://youtu.be/5IMXpp3rohQ
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d')
 const scoreElement = document.getElementById('score');
@@ -408,6 +409,7 @@ map.forEach((row, i) => {
     })
 })
 
+//pacman or ghost touches boundary
 function circleCollidesWithRectangle({
     circle,
     rectangle
@@ -537,7 +539,7 @@ function animate() {
         cancelAnimationFrame(animationId)
     }
 
-    //powerups
+    //powerups are touched
     for (let i = powerUps.length - 1; 0 <= i; i--) {
         const powerUp = powerUps[i];
         powerUp.draw();
@@ -675,7 +677,7 @@ function animate() {
                     ghost.velocity.y = -ghost.speed
                     ghost.velocity.x = 0
                     break;
-                case 'right':
+                case 'right': 
                     ghost.velocity.y = 0
                     ghost.velocity.x = ghost.speed
                     break;
@@ -771,7 +773,6 @@ function handleTouchStart(event) {
       }
     }
   }
-  
 
 canvas.addEventListener('touchstart', handleTouchStart);
 canvas.addEventListener('touchmove', handleTouchMove);
