@@ -3,9 +3,9 @@
 - Custom Pacman image
 - Custom ghosts
 - Pacman hurt animation
+- Play button
+- You win screen
 
 ## TODO
 - Pacman animation
 - Game over screen
-- You win screen
-- Start button

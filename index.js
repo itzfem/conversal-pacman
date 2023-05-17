@@ -426,19 +426,19 @@ let lives = 3;
 
 let gameRunning = false;
 
+let startButton = document.getElementById("startBtn");
+startButton.addEventListener('click', function() {
+    gameRunning = true;
+    animate();
+    startButton.outerHTML = "";
+})
+
 function drawStartText() {
     c.font = "20px Arial";
     c.fillStyle = "black";
     c.textAlign = "center";
     c.fillText("Press P to start the game", canvas.width / 2, canvas.height / 2);
 }
-
-document.addEventListener('keydown', function(event) {
-    if (event.key === 'p' || event.key === 'P') {
-        gameRunning = true;
-        animate();
-    }
-});
 
 function animate() {
     if (!gameRunning) {
@@ -555,9 +555,33 @@ function animate() {
         }
     }
 
+    function drawWinScreen() {
+        c.font = "40px Arial";
+        c.fillStyle = "green";
+        c.textAlign = "center";
+        c.fillText("You Win!", canvas.width / 2, canvas.height / 2);
+
+        const buttonWidth = 200;
+        const buttonHeight = 50;
+        const buttonX = canvas.width / 2 - buttonWidth / 2;
+        const buttonY = canvas.height / 2 + 50;
+    
+        c.fillStyle = "blue";
+        c.fillRect(buttonX, buttonY, buttonWidth, buttonHeight);
+    
+        c.font = "20px Arial";
+        c.fillStyle = "white";
+        c.textAlign = "center";
+        c.fillText("Play Again", canvas.width / 2, buttonY + buttonHeight / 2 + 7);
+    
+        canvas.addEventListener("click", function() {
+            location.reload();
+        });
+    }
+
     //win condition
-    if (pellets.length === 0) {
-        console.log("you win!");
+    if (pellets.length === 0 && powerUps.length === 0) {
+        drawWinScreen();
         cancelAnimationFrame(animationId)
     }
 
