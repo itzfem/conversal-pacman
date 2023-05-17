@@ -23,7 +23,7 @@ class Boundary {
 }
 
 const pacmanImg = new Image(40,40)
-pacmanImg.src = "img/conversallogo.png";
+pacmanImg.src = "img/pacman/conversallogo.png";
 
 class Player {
     static speed = 4;
@@ -424,7 +424,29 @@ function circleCollidesWithRectangle({
 let animationId;
 let lives = 3;
 
+let gameRunning = false;
+
+function drawStartText() {
+    c.font = "20px Arial";
+    c.fillStyle = "black";
+    c.textAlign = "center";
+    c.fillText("Press P to start the game", canvas.width / 2, canvas.height / 2);
+}
+
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'p' || event.key === 'P') {
+        gameRunning = true;
+        animate();
+    }
+});
+
 function animate() {
+    if (!gameRunning) {
+        c.clearRect(0, 0, canvas.width, canvas.height);
+        drawStartText();
+
+        return;
+    }
     animationId = requestAnimationFrame(animate)
     c.clearRect(0, 0, canvas.width, canvas.height)
 
@@ -691,8 +713,6 @@ function animate() {
         }
     })
 }
-
-animate();
 
 //computer movement
 addEventListener('keydown', function(event) {
